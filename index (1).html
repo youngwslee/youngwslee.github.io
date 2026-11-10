@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+
+<!--
+  아직 채워야 할 곳 (파일에서 "TODO" 를 검색하세요)
+  1. 사진: photo.jpg 를 이 파일과 같은 폴더에 올린 뒤 "사진" 주석을 따라 바꾸세요.
+  2. GitHub 주소, CV (준비되면 주석을 풀어 주세요)
+  3. 준비 중인 논문 두 편의 제목과 저자
+-->
+
+<title>Wooseok Lee – Computational materials science</title>
+<meta name="description" content="Wooseok Lee is a Ph.D. candidate at Seoul National University who uses first-principles calculations and machine learning to study energy materials, from high-entropy thermoelectrics to electrocatalysts.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='7' cy='16' r='5' fill='%23d8502a'/%3E%3Ccircle cx='16' cy='16' r='3.5' fill='%23855a9c'/%3E%3Ccircle cx='25' cy='16' r='5' fill='%232a5bd7'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+<style>
+  /* ── 색과 치수: 여기 값만 바꾸면 페이지 전체가 바뀝니다 ── */
+  :root {
+    color-scheme: light;
+    --bg: #ffffff;
+    --surface: #f4f6f8;
+    --ink: #141a22;
+    --muted: #5b6572;
+    --rule: #e2e6eb;
+    --accent: #1f4fbf;        /* 링크 색 */
+    --accent-soft: #e8eefb;   /* 공동 1저자 표시 배경 */
+    --hot: #d8502a;           /* 격자 그림: 뜨거운 쪽 */
+    --cold: #2a5bd7;          /* 격자 그림: 차가운 쪽 */
+    --site: #b4bcc6;
+
+    --page: 68rem;            /* 전체 폭 */
+    --side: 13rem;            /* 섹션 제목이 놓이는 왼쪽 열 */
+    --gap: 3.5rem;
+    --sans: "Instrument Sans", "Pretendard", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --bg: #0f1318;
+      --surface: #171c24;
+      --ink: #e9edf2;
+      --muted: #9aa4b2;
+      --rule: #262d38;
+      --accent: #8fb4ff;
+      --accent-soft: #1a2740;
+      --hot: #ff8f66;
+      --cold: #7aa7ff;
+      --site: #465160;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 4.75rem; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  p { margin: 0 0 0.9rem; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  sub { line-height: 0; }
+
+  /* ── 상단 메뉴 ── */
+  .nav {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner {
+    max-width: var(--page); margin: 0 auto; padding: 0.85rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  }
+  .nav-name { font-weight: 600; color: var(--ink); text-decoration: none; white-space: nowrap; }
+  .nav ul {
+    display: flex; gap: 1.6rem; list-style: none; margin: 0; padding: 0;
+    min-width: 0; overflow-x: auto; white-space: nowrap; scrollbar-width: none;
+  }
+  .nav ul::-webkit-scrollbar { display: none; }
+  .nav li a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+  .nav li a:hover { color: var(--ink); }
+
+  .wrap { max-width: var(--page); margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ── 격자 그림: 무질서한 격자 위의 온도 기울기 ── */
+  .lattice { padding-top: 2.5rem; }
+  .lattice svg { display: block; width: 100%; height: 56px; }
+  .lattice circle { fill: var(--cold); opacity: var(--o, 1); }
+  .lattice svg:not(.settled) circle { animation: appear 0.7s ease backwards; }
+  @keyframes appear { from { opacity: 0; } }
+
+  /* ── 소개 ── */
+  .hero {
+    display: grid; grid-template-columns: minmax(0, 1fr) var(--side);
+    column-gap: var(--gap); align-items: start;
+    padding: 2.75rem 0 4rem;
+  }
+  .hero-text { max-width: 44rem; }
+  h1 {
+    margin: 0 0 0.6rem;
+    font-size: clamp(2.4rem, 6vw, 3.5rem);
+    line-height: 1.05; font-weight: 600; letter-spacing: -0.025em;
+  }
+  .role { color: var(--muted); margin-bottom: 1.6rem; }
+  .lede { font-size: 1.4rem; line-height: 1.42; letter-spacing: -0.01em; margin-bottom: 1.1rem; }
+  .photo {
+    display: grid; place-items: center;
+    width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+    border-radius: 12px; background: var(--surface);
+    color: var(--muted); font-size: 0.9rem;
+  }
+  .links { display: flex; flex-wrap: wrap; gap: 0.6rem; list-style: none; padding: 0; margin: 1.5rem 0 0; }
+  .btn {
+    display: inline-flex; align-items: center;
+    padding: 0.5rem 1.05rem; border-radius: 999px;
+    border: 1px solid var(--rule);
+    color: var(--ink); text-decoration: none; font-size: 0.95rem; font-weight: 500;
+  }
+  .btn:hover { border-color: var(--ink); }
+  .btn.primary { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+  .btn.primary:hover { opacity: 0.86; }
+  .note {
+    margin: 1.5rem 0 0; padding: 0.85rem 1.1rem;
+    background: var(--surface); border-radius: 10px;
+    font-size: 0.95rem;
+  }
+
+  /* ── 섹션: 왼쪽에 제목, 오른쪽에 내용 ── */
+  .section {
+    display: grid; grid-template-columns: var(--side) minmax(0, 1fr);
+    column-gap: var(--gap);
+    padding: 3.25rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .section h2 {
+    position: sticky; top: 4.75rem; align-self: start;
+    margin: 0; font-size: 1.35rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em;
+  }
+  .content { max-width: 44rem; }
+  .content > :last-child { margin-bottom: 0; }
+  h3 { margin: 0 0 0.3rem; font-size: 1.0625rem; line-height: 1.4; font-weight: 600; }
+
+  .theme + .theme { margin-top: 1.9rem; }
+  .theme p { margin: 0; }
+
+  .aside { font-size: 0.95rem; color: var(--muted); }
+  .group { margin: 2.6rem 0 1.3rem; font-size: 0.95rem; font-weight: 600; color: var(--muted); }
+
+  /* 논문 */
+  .pub { display: grid; grid-template-columns: 3.75rem minmax(0, 1fr); column-gap: 1rem; margin-top: 1.7rem; }
+  .pub .yr { color: var(--muted); font-size: 0.95rem; font-variant-numeric: tabular-nums; padding-top: 0.08rem; }
+  .pub p { margin: 0; font-size: 0.95rem; }
+  .pub .authors { color: var(--muted); margin-bottom: 0.3rem; }
+  .pub .me { color: var(--ink); font-weight: 600; }
+  .pub .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.8rem; }
+  .tag {
+    font-size: 0.8rem; font-weight: 500; line-height: 1.5;
+    padding: 0.08rem 0.6rem; border-radius: 999px;
+    background: var(--accent-soft); color: var(--accent);
+  }
+
+  /* 날짜가 붙는 목록 (News, Education, Teaching) */
+  .rows { list-style: none; margin: 0; padding: 0; }
+  .rows li { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); column-gap: 1rem; }
+  .rows li + li { margin-top: 0.7rem; }
+  .rows time { color: var(--muted); font-size: 0.95rem; font-variant-numeric: tabular-nums; padding-top: 0.08rem; }
+  .aside + .rows { margin-top: 1rem; }
+
+  footer { border-top: 1px solid var(--rule); padding: 2rem 0 3.5rem; color: var(--muted); font-size: 0.9rem; }
+  footer p { margin: 0 0 0.3rem; }
+
+  /* ── 휴대폰 ── */
+  @media (max-width: 52rem) {
+    .hero { grid-template-columns: minmax(0, 1fr); padding: 2rem 0 3rem; }
+    .hero-photo { order: -1; width: 7.5rem; margin-bottom: 1.5rem; }
+    .lede { font-size: 1.25rem; }
+    .section { grid-template-columns: minmax(0, 1fr); row-gap: 1.3rem; padding: 2.5rem 0; }
+    .section h2 { position: static; }
+    .nav ul { gap: 1.2rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .lattice svg circle { animation: none !important; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ───────── 상단 메뉴 ───────── -->
+<nav class="nav" aria-label="Sections">
+  <div class="nav-inner">
+    <a class="nav-name" href="#top">Wooseok Lee</a>
+    <ul>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#teaching">Teaching</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- 장식: 접속할 때마다 새로 그려지는 무질서한 격자. 왼쪽(따뜻한 색)에서 오른쪽(차가운 색)으로 온도 기울기를 나타냅니다. -->
+  <div class="lattice" aria-hidden="true"><svg id="lattice"></svg></div>
+
+  <!-- ───────── 소개 ───────── -->
+  <header class="hero" id="top">
+    <div class="hero-text">
+      <h1>Wooseok Lee</h1>
+      <p class="role">
+        Ph.D. candidate in the Department of Chemical and Biological Engineering,
+        Seoul National University. Advised by
+        <a href="https://tcsm.snu.ac.kr/">Prof. Won Bo Lee</a>.
+        Graduating February 2027.
+      </p>
+
+      <p class="lede">
+        I use first-principles calculations and machine learning to connect atomic
+        structure to function in energy materials, from transport in high-entropy
+        thermoelectrics to reactions on electrocatalyst surfaces.
+      </p>
+      <p>
+        My thesis centers on high-entropy chalcogenides, whose composition space is far
+        too large to screen by experiment or density functional theory alone. I use
+        active learning and machine learning force fields to find promising compositions
+        and compute their transport properties, working closely with the experimental
+        groups who make and measure them.
+      </p>
+
+      <ul class="links">
+        <li><a class="btn primary" href="mailto:youngwslee@snu.ac.kr">Email</a></li>
+        <li><a class="btn" href="https://scholar.google.com/citations?user=VUESdR0AAAAJ&amp;hl=en">Google Scholar</a></li>
+        <!-- TODO: 준비되면 주석을 풀어 주세요.
+        <li><a class="btn" href="cv.pdf">CV</a></li>
+        <li><a class="btn" href="https://github.com/GITHUB-ID">GitHub</a></li>
+        -->
+      </ul>
+
+      <!-- 다음 자리가 정해지면 둘째 문장을 지우세요. -->
+      <p class="note">
+        After graduating, I will continue in the same group as a postdoctoral
+        researcher (2027–2028). I am looking for my next postdoctoral position,
+        starting in 2028.
+      </p>
+    </div>
+
+    <div class="hero-photo">
+      <!-- 사진: 아래 div 를 지우고 다음 줄의 주석을 풀어 주세요.
+      <img class="photo" src="photo.jpg" alt="Portrait of Wooseok Lee">
+      -->
+      <div class="photo" role="img" aria-label="Photo placeholder">Photo</div>
+    </div>
+  </header>
+
+  <main>
+
+  <!-- ───────── 연구 ───────── -->
+  <section class="section" id="research" aria-labelledby="research-h">
+    <h2 id="research-h">Research</h2>
+    <div class="content">
+      <div class="theme">
+        <h3>High-entropy thermoelectrics</h3>
+        <p>
+          A nine-element chalcogenide has thousands of possible compositions, too many
+          to make and measure one by one. Working with experimental collaborators, I used
+          Bayesian active learning to choose which compositions to synthesize next, and
+          the search reached three compositions with <i>zT</i> above 2 after 80 syntheses
+          out of 16,206 candidates
+          (<a href="https://doi.org/10.1002/adma.202515054"><i>Advanced Materials</i></a>).
+          I am now training machine learning force fields to compute transport in these
+          disordered structures at length scales density functional theory cannot reach.
+        </p>
+      </div>
+      <div class="theme">
+        <h3>Charge transport from first principles</h3>
+        <!-- 투고 후: 핵심 결과 한 문장을 추가하세요. -->
+        <p>
+          I compute electrical conductivity from first principles by combining density
+          functional theory with the Boltzmann transport equation. My current case study
+          is a Cu/graphene system, and a manuscript is in preparation.
+        </p>
+      </div>
+      <div class="theme">
+        <h3>First-principles modeling of electrocatalysts and battery interfaces</h3>
+        <p>
+          I also use density functional theory to explain experiments on electrochemical
+          interfaces at the atomic scale: hydrogen evolution on N-CNT/Co@MoS<sub>2</sub>
+          and polymer-coated zinc anodes (both as co-first author), and nitrogen reduction
+          on Pd/boron nitride nanotubes.
+        </p>
+      </div>
+
+      <!-- 포닥에서 하고 싶은 연구가 정리되면 주석을 풀고 작성하세요. 학계 지원에서 특히 눈여겨보는 부분입니다.
+      <div class="theme">
+        <h3>What comes next</h3>
+        <p>[The direction you plan to pursue as a postdoc, and why your thesis work prepares you for it.]</p>
+      </div>
+      -->
+    </div>
+  </section>
+
+  <!-- ───────── 논문 ───────── -->
+  <section class="section" id="publications" aria-labelledby="publications-h">
+    <h2 id="publications-h">Publications</h2>
+    <div class="content">
+      <p class="aside">
+        An asterisk marks equal contribution. Also listed on
+        <a href="https://scholar.google.com/citations?user=VUESdR0AAAAJ&amp;hl=en">Google Scholar</a>.
+      </p>
+
+      <!-- 논문 하나 = article 하나. 복사해서 늘리세요. -->
+      <article class="pub">
+        <span class="yr">2026</span>
+        <div>
+          <h3>Active learning-guided accelerated discovery of ultra-efficient high-entropy thermoelectrics</h3>
+          <p class="authors">Hanhwi Jang*, <span class="me">Wooseok Lee</span>*, Hwa-Jung Kim, Sohyang Cha, Hosun Shin, Won Bo Lee, Min-Wook Oh, Yeon Sik Jung, YongJoo Kim</p>
+          <p class="meta"><span><i>Advanced Materials</i> 38, e15054</span><span class="tag">Co-first author</span><span class="tag">Inside front cover</span><a href="https://doi.org/10.1002/adma.202515054">Paper</a></p>
+        </div>
+      </article>
+
+      <article class="pub">
+        <span class="yr">2026</span>
+        <div>
+          <h3>Unraveling the synergistic mechanism of N-CNT/Co@MoS<sub>2</sub> heterostructure for pH-universal hydrogen evolution reaction</h3>
+          <p class="authors">Jinwoo Hwang*, Dong Hyun Kim*, <span class="me">Wooseok Lee</span>*, Hyoik Jang, Da Hye Sim, Uoon Chul Baek, Won Bo Lee, Yong Joo Kim, Eunho Lee, Jung Tae Park</p>
+          <p class="meta"><span><i>Journal of Alloys and Compounds</i> 1071, 188913</span><span class="tag">Co-first author</span><a href="https://doi.org/10.1016/j.jallcom.2026.188913">Paper</a></p>
+        </div>
+      </article>
+
+      <article class="pub">
+        <span class="yr">2025</span>
+        <div>
+          <h3>Rapid-heating-assisted metal–support interaction formation: Pd nanoparticles on boron nitride nanotubes as electrocatalysts for high N<sub>2</sub>-to-ammonia yields</h3>
+          <p class="authors">Ji-Yoon Song*, Jaehyun Park*, Minsung Kang*, <span class="me">Wooseok Lee</span>, Jee Ho Ha, Jinpil Ha, Won Bo Lee, Aqil Jamal, Issam Gereige, YongJoo Kim, Hyeonsu Jeong, Seokhoon Ahn, Seok Ju Kang, Hee-Tae Jung</p>
+          <p class="meta"><span><i>EES Catalysis</i> 3, 763–774</span><a href="https://doi.org/10.1039/D4EY00210E">Paper</a></p>
+        </div>
+      </article>
+
+      <article class="pub">
+        <span class="yr">2025</span>
+        <div>
+          <h3>Novel anchored branched polymer coating layers for enhanced redox kinetics in aqueous zinc-ion batteries</h3>
+          <p class="authors">Hyeong Seop Jeong*, Dong Il Kim*, <span class="me">Wooseok Lee</span>*, Hee Bin Jeong, Seunghwan Jo, Junsung Byeon, Yongjae Kwon, Younghwan Choi, Won Bo Lee, SeungNam Cha, Jin Pyo Hong, Jung-Inn Sohn, YongJoo Kim, John Hong</p>
+          <p class="meta"><span><i>Energy &amp; Environmental Materials</i> 8, e12872</span><span class="tag">Co-first author</span><a href="https://doi.org/10.1002/eem2.12872">Paper</a></p>
+        </div>
+      </article>
+
+      <!-- TODO: 준비 중인 논문. 제목과 저자를 실제 내용으로 바꾸고, 투고하면 "Under review" 로 고치세요. -->
+      <p class="group">In preparation</p>
+
+      <article class="pub">
+        <span class="yr" aria-hidden="true"></span>
+        <div>
+          <h3>Electrical conductivity of Cu/graphene from first principles and Boltzmann transport (working title)</h3>
+          <p class="authors"><span class="me">Wooseok Lee</span> et al.</p>
+        </div>
+      </article>
+
+      <article class="pub">
+        <span class="yr" aria-hidden="true"></span>
+        <div>
+          <h3>Machine learning force fields for transport in high-entropy thermoelectrics (working title)</h3>
+          <p class="authors"><span class="me">Wooseok Lee</span> et al.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ───────── 소식 ───────── -->
+  <section class="section" id="news" aria-labelledby="news-h">
+    <h2 id="news-h">News</h2>
+    <div class="content">
+      <ul class="rows">
+        <li><time>Jun 2026</time><span>Co-first-author paper on N-CNT/Co@MoS<sub>2</sub> catalysts for hydrogen evolution published in <i>Journal of Alloys and Compounds</i>.</span></li>
+        <li><time>May 2026</time><span>Gave an oral presentation on active learning for high-entropy thermoelectrics at the 2026 MRS Spring Meeting in Honolulu.</span></li>
+        <li><time>Feb 2026</time><span>Our <i>Advanced Materials</i> paper was featured on the inside front cover.</span></li>
+        <li><time>Oct 2025</time><span>Co-first-author paper on active learning for high-entropy thermoelectrics published in <i>Advanced Materials</i>.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ───────── 학력 ───────── -->
+  <section class="section" id="education" aria-labelledby="education-h">
+    <h2 id="education-h">Education</h2>
+    <div class="content">
+      <ul class="rows">
+        <li><time>2021–2027</time><span>Ph.D. in Chemical and Biological Engineering, Seoul National University (integrated M.S./Ph.D. program, expected February 2027)</span></li>
+        <li><time>2017–2021</time><span>B.S. in Chemistry Education, Seoul National University</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ───────── 강의 ───────── -->
+  <section class="section" id="teaching" aria-labelledby="teaching-h">
+    <h2 id="teaching-h">Teaching</h2>
+    <div class="content">
+      <p class="aside">Teaching assistant, Department of Chemical and Biological Engineering, Seoul National University.</p>
+      <ul class="rows">
+        <li><time>Fall 2024</time><span>Computer Applications in Chemical Engineering (MATLAB)</span></li>
+        <li><time>Spring 2023</time><span>Graduate Seminar</span></li>
+        <li><time>Spring 2022</time><span>Chemical and Biological Process Lab. (heat transfer)</span></li>
+        <li><time>Fall 2021</time><span>Elementary Lab. (concentration analysis with calibration curves)</span></li>
+      </ul>
+    </div>
+  </section>
+
+  </main>
+
+  <footer>
+    <p>
+      Department of Chemical and Biological Engineering, Institute of Chemical Processes,
+      Seoul National University, Seoul 08826, Republic of Korea
+    </p>
+    <p>Last updated November 2026.</p>
+  </footer>
+
+</div>
+
+<script>
+  /* 격자 그림: 암염 구조처럼 두 종류의 자리가 번갈아 놓이고,
+     한쪽 자리에는 크기가 다른 원자가 무작위로 들어갑니다. */
+  (function () {
+    var svg = document.getElementById('lattice');
+    if (!svg) return;
+    var NS = 'http://www.w3.org/2000/svg', S = 14, ROWS = 4, SIZES = [2.1, 2.9, 3.7];
+    function draw() {
+      var w = svg.getBoundingClientRect().width;
+      if (!w) return;
+      var cols = Math.floor(w / S), h = ROWS * S;
+      svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+      svg.textContent = '';
+      for (var j = 0; j < ROWS; j++) {
+        for (var i = 0; i < cols; i++) {
+          var c = document.createElementNS(NS, 'circle');
+          var x = S / 2 + i * S, y = S / 2 + j * S, p = x / w;
+          c.setAttribute('cx', x);
+          c.setAttribute('cy', y);
+          if ((i + j) % 2) {
+            c.setAttribute('r', 1.4);
+            c.style.fill = 'var(--site)';
+          } else {
+            var mix = Math.max(0, Math.min(100, (1 - p) * 100 + (Math.random() - 0.5) * 22));
+            c.setAttribute('r', SIZES[Math.floor(Math.random() * SIZES.length)]);
+            c.style.fill = 'color-mix(in oklab, var(--hot) ' + mix.toFixed(0) + '%, var(--cold))';
+            c.style.setProperty('--o', (0.5 + Math.random() * 0.5).toFixed(2));
+          }
+          c.style.animationDelay = Math.round(p * 900) + 'ms';
+          svg.appendChild(c);
+        }
+      }
+    }
+    draw();
+    setTimeout(function () { svg.classList.add('settled'); }, 2000);
+    var t;
+    window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(draw, 150); });
+  })();
+</script>
+</body>
+</html>
